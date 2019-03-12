@@ -1,0 +1,16 @@
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+[Service]
+User=k8s
+Type=notify
+WorkingDirectory=/opt/k8s/data/etcd/
+ExecStart=/opt/k8s/bin/etcd --data-dir=/opt/k8s/data/etcd --name=kube-master3 --cert-file=/opt/k8s/cert/etcd.pem --key-file=/opt/k8s/cert/etcd-key.pem --trusted-ca-file=/opt/k8s/cert/ca.pem --peer-cert-file=/opt/k8s/cert/etcd.pem --peer-key-file=/opt/k8s/cert/etcd-key.pem --peer-trusted-ca-file=/opt/k8s/cert/ca.pem --peer-client-cert-auth --client-cert-auth --listen-peer-urls=https://8.1.236.133:2380 --initial-advertise-peer-urls=https://8.1.236.133:2380 --listen-client-urls=https://8.1.236.133:2379,http://127.0.0.1:2379 --advertise-client-urls=https://8.1.236.133:2379 --initial-cluster-token=etcd-cluster-0 --initial-cluster=kube-master1=https://8.1.236.131:2380,kube-master2=https://8.1.236.132:2380,kube-master3=https://8.1.236.133:2380 --initial-cluster-state=new
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target

@@ -12,10 +12,16 @@ export MASTER_IP2=8.1.236.132
 export MASTER_IP3=8.1.236.133
 
 # 集群各 IP 对应的 主机名数组
-export NODE_NAMES=(kube-master1 kube-master2 kube-master3 )
+export NODE_NAMES=(kube-master1 kube-master2 kube-master3)
 
 # 集群各机器 IP 数组
 export NODE_IPS=($MASTER_IP1 $MASTER_IP2 $MASTER_IP3)
+
+# 集群各 IP 对应的 主机名数组
+export AGENT_NAMES=(kube-node4 kube-node5 kube-node6 kube-node7 kube-node8 kube-node9)
+
+# 集群各机器 IP 数组
+export AGENT_IPS=(8.1.236.134 8.1.236.135 8.1.236.136 8.1.236.137 8.1.236.138 8.1.236.139)
 
 # etcd 集群服务地址列表
 export ETCD_ENDPOINTS="https://${MASTER_IP1}:2379,https://${MASTER_IP2}:2379,https://${MASTER_IP3}:2379"
@@ -30,10 +36,10 @@ export KUBE_APISERVER="https://127.0.0.1:8443"
 export IFACE="ens160"
 
 # etcd 数据目录
-export ETCD_DATA_DIR="/opt/k8s/etcd/data"
+export ETCD_DATA_DIR="/opt/k8s/data/etcd/"
 
 # etcd WAL 目录，建议是 SSD 磁盘分区，或者和 ETCD_DATA_DIR 不同的磁盘分区
-export ETCD_WAL_DIR="/opt/k8s/etcd/wal"
+export ETCD_WAL_DIR="/opt/k8s/wal/etcd/"
 
 # k8s 各组件数据目录
 export K8S_DIR="/opt/k8s/k8s"
@@ -71,3 +77,7 @@ export CLUSTER_DNS_DOMAIN="cluster.local"
 
 # 将二进制目录 /opt/k8s/bin 加到 PATH 中
 export PATH=/opt/k8s/bin:$PATH
+
+
+
+alias etcdctl='func() { source 0000.sh; ETCDCTL_API=2 ;/opt/k8s/bin/etcdctl --endpoints=${ETCD_ENDPOINTS} --ca-file=/opt/k8s/cert/ca.pem --cert-file=/opt/k8s/cert/flanneld.pem --key-file=/opt/k8s/cert/flanneld-key.pem $*; }; func'

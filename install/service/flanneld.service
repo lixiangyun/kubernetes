@@ -7,15 +7,8 @@ After=etcd.service
 Before=docker.service
 [Service]
 Type=notify
-ExecStart=/opt/k8s/bin/flanneld \\
--etcd-cafile=/etc/kubernetes/cert/ca.pem \\
--etcd-certfile=/etc/flanneld/cert/flanneld.pem \\
--etcd-keyfile=/etc/flanneld/cert/flanneld-key.pem \\
--etcd-endpoints=${ETCD_ENDPOINTS} \\
--etcd-prefix=${FLANNEL_ETCD_PREFIX} \\
--iface=${IFACE}
-ExecStartPost=/opt/k8s/bin/mk-docker-opts.sh -k DOCKER_NETWORK_OPTION
-S -d /run/flannel/docker
+ExecStart=/opt/k8s/bin/flanneld -etcd-cafile=/opt/k8s/cert/ca.pem -etcd-certfile=/opt/k8s/cert/flanneld.pem -etcd-keyfile=/opt/k8s/cert/flanneld-key.pem -etcd-endpoints=https://8.1.236.131:2379,https://8.1.236.132:2379,https://8.1.236.133:2379 -etcd-prefix=/kubernetes/network -iface=ens160
+ExecStartPost=/opt/k8s/bin/mk-docker-opts.sh -k DOCKER_NETWORK_OPTIONS -d /run/flannel/docker
 Restart=on-failure
 [Install]
 WantedBy=multi-user.target
