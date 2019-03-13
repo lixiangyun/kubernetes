@@ -32,6 +32,12 @@ export ETCD_NODES="kube-master1=https://${MASTER_IP1}:2380,kube-master2=https://
 # kube-apiserver 的反向代理(kube-nginx)地址端口
 export KUBE_APISERVER="https://127.0.0.1:8443"
 
+# 生成kubeconfig文件
+export KUBE_APISERVER="https://${MASTER_VIP}:8443"
+
+
+
+
 # 节点间互联网络接口名称
 export IFACE="ens160"
 
