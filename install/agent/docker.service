@@ -1,10 +1,14 @@
 [Unit]
 Description=Docker Application Container Engine
-Documentation=http://docs.docker.io
+Documentation=https://docs.docker.com
+After=network-online.target docker.socket firewalld.service
+Wants=network-online.target
+Requires=docker.socket
 [Service]
-Environment="PATH=/opt/k8s/bin:/bin:/sbin:/usr/bin:/usr/sbin"
+Type=notify
+Environment="HTTP_PROXY=http://mypc:808" "HTTPS_PROXY=http://mypc:808" "NO_PROXY=localhost,127.0.0.1,192.168.*.*,8.1.*.*"
 EnvironmentFile=-/run/flannel/docker
-ExecStart=/opt/k8s/bin/dockerd --log-level=error $DOCKER_NETWORK_OPTIONS
+ExecStart=/usr/bin/dockerd --log-level=error $DOCKER_NETWORK_OPTIONS
 ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 RestartSec=5

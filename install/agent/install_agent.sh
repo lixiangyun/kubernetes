@@ -106,7 +106,7 @@ for node_name in ${AGENT_NAMES[@]}
 do
 echo ">>> ${node_name}"
 sed -e "s/##NODE_NAME##/${node_name}/" kubelet.service.template >kubelet-${node_name}.service
-scp kubelet-${node_name}.service root@${node_name}:/etc/systemd/system/kubelet.service
+scp kubelet-${node_name}.service root@${node_name}:/lib/systemd/system/kubelet.service
 done
 
 kubectl create clusterrolebinding kubelet-bootstrap --clusterrole=system:node-bootstrapper --group=system:bootstrappers
